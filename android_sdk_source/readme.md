@@ -19,17 +19,17 @@ If you use the following enumeration, then you will need to modify the class nam
 
 
 Features Involved | Before Modifications <br> com.veepoo.protocol.operate. * | After Modifications <br> com.veepoo.protocol.model.enums. * |
-| :------| :------: | :------: |
-01. Alarm Clock | AlarmOperater.AOStatus | EAalarmStatus |
-02. Blood Pressure Mode | BPModelOprate.BPStatus | EBPStatus |
-03. Blood pressure test | BPOperater.BPDetectStatus | EBPDetectStatus |
-04. Take Photo | CameraOperater.COStatus | ECameraStatus |
-05. Countdown | CountDownOprate.DCStatus | ECustomStatus |
-06. Fatigue | FatigueOperate.FatigueStatus | EFatigueStatus |
-07. Find Device | FindDeviceOperater.FDStatus | EFindDeviceStatus |
-08. Heart Rate | HeartOperater.HeartStatus | EHeartStatus |
-09. Heart rate abnormal | HeartWarningOperate.HWStatus | EHeartWaringStatus |
-10. Sedentary | LongSeatOperater.LSStatus | ELongSeatStatus |
-11. Night Turn Wrist | NightTurnWristOperate.NTStatus | ENightTurnWristeStatus |
-12. Blood Oxygen Test | Spo2hDetectOperate.SPO2HStatus | ESPO2HStatus |
-13. Women | WomenOperater.OperateStatus | EWomenOprateStatus |
+| :------| :------:  | :------: |
+| 01. Alarm Clock | AlarmOperater.AOStatus | EAalarmStatus |
+| 02. Blood Pressure Mode | BPModelOprate.BPStatus | EBPStatus |
+| 03. Blood pressure test | BPOperater.BPDetectStatus | EBPDetectStatus |
+| 04. Take Photo | CameraOperater.COStatus | ECameraStatus |
+| 05. Countdown | CountDownOprate.DCStatus | ECustomStatus |
+| 06. Fatigue | FatigueOperate.FatigueStatus | EFatigueStatus |
+| 07. Find Device | FindDeviceOperater.FDStatus | EFindDeviceStatus |
+| 08. Heart Rate | HeartOperater.HeartStatus | EHeartStatus |
+| 09. Heart rate abnormal | HeartWarningOperate.HWStatus | EHeartWaringStatus |
+| 10. Sedentary | LongSeatOperater.LSStatus | ELongSeatStatus |
+| 11. Night Turn Wrist | NightTurnWristOperate.NTStatus | ENightTurnWristeStatus |
+| 12. Blood Oxygen Test | Spo2hDetectOperate.SPO2HStatus | ESPO2HStatus |
+| 13. Women | WomenOperater.OperateStatus | EWomenOprateStatus |

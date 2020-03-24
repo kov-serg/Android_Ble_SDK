@@ -1,25 +1,24 @@
 # Android_Ble_SDK
-Android_Ble_SDK是一个用于快速与蓝牙BLE交互的工具包，仅提供给我们合作的客户下载使用，方便提升客户的开发效率。
+Android_Ble_SDK is a toolkit that can quickly interact with bluetooth BLE，only provided to our coperative customers to download for promoting development efficiency.
 
 
-README: [English](https://github.com/HBandSDK/Android_Ble_SDK/blob/master/README_EN.md) | 
-        [中文](https://github.com/HBandSDK/Android_Ble_SDK/blob/master/README.md)
+README: [English](https://github.com/HBandSDK/Android_Ble_SDK/blob/master/README_EN.md)| [Chinese](https://github.com/HBandSDK/Android_Ble_SDK/blob/master/README.md)
 
-## 必要条件
+## Requirements
 
     
    * API>19&&BLE 4.0  
    * [vpbluetooth_x.x.x.jar](https://github.com/HBandSDK/Android_Ble_SDK/tree/master/android_sdk_source/jar_base)
    * [gson-x.x.x.jar](https://github.com/HBandSDK/Android_Ble_SDK/tree/master/android_sdk_source/jar_base)
 
-## 如何使用
+## How to use
 
-### 1. 配置 build.gradle
+### 1. Configuration （build.gradle）
 
     compile files('libs/vpbluetooth_x.x.x.jar')  
-    compile files('libs/gson-x.x.x.jar') 或者 compile 'com.google.code.gson:gson:x.x.x'  
+    compile files('libs/gson-x.x.x.jar') or compile 'com.google.code.gson:gson:x.x.x'  
 
-### 2. 配置 Androidmanifest.xml
+### 2. Configuration Androidmanifest.xml
 
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
@@ -31,106 +30,103 @@ README: [English](https://github.com/HBandSDK/Android_Ble_SDK/blob/master/README
     
     <!--Activity&Service-->
     <service android:name="com.inuker.bluetooth.library.BluetoothService" />        
-    <!--固件升级功能相关-->
+    <!--Firmware upgrade retevent function -->
     <service android:name=".oad.service.DfuService" /> 
     <activity android:name=".oad.activity.NotificationActivity" />
-### 3. 蓝牙通信连接
 
+### 3. Bluetooth Communication Connection  
 
-    操作说明:所有的操作都只是通过VPOperateManager;
+    Operating instructions：all operations use VPOperateManager Object
     
-    3.1 获取VPOperateManager实例： VPOperateManager.getMangerInstance()
-    3.2 扫描蓝牙设备: startScanDevice();
-    3.3 连接蓝牙设备: connectDevice();
-        3.3.1 调用密码密码：confirmDevicePwd()
-        3.3.2 调用个人信息设置：syncPersonInfo()
-    3.4 设置连接设备的连接状态监听:registerConnectStatusListener(); //这个方法最好是在连接成功后设置
-    3.5 设置系统蓝牙的开关状态监听:registerBluetoothStateListener(); //这个方法可以在任何状态下设置
-    3.6 其他数据交互操作
+    3.1 obtain VPOperateManager Object： VPOperateManager.getMangerInstance()
+    3.2 scan Bluetooth devices: startScanDevice();
+    3.3 connect  devices: connectDevice();
+        3.3.1 confirm the password：confirmDevicePwd()
+        3.3.2 synchronization the personal information：syncPersonInfo()
+    3.4 register connection status of the device to  listen）:registerConnectStatusListener(); //please use this method after the device is connected
+    3.5 register switch status of the system bluetooth to listen:registerBluetoothStateListener(); //this method can be used under any of status
+    3.6 other data interaction operation
     
-    备注1：
-    为了避免内存泄漏的情况，请谨慎使用context,推荐使用getApplicationContext();
-    如：获取VPOperateManager实例：VPOperateManager.getMangerInstance(getApplicationContext())；
+    Remarks 1：
+    In order to avoid memory leak, please cautiously use context object, and we recommend to use getApplicationContext()
+    Such as: example to obtain VPOperateManager object：VPOperateManager.getMangerInstance(getApplicationContext())；
     
-    备注2： 
-    如调用扫描设备:VPOperateManager.getMangerInstance().startScanDevice()；
-    以上统一简写为:startScanDevice();
+    Remarks 2： 
+    Such as call scan device:VPOperateManager.getMangerInstance().startScanDevice()；
+    Above uniformly abbreviated as:startScanDevice();
     
-    备注3:
-    调用connectDevice(),然后在bleNotifyResponse回调成功后,才可执行密码验证操作
-    第一步要进行的交互是验证密码：confirmDevicePwd()
-    第二步要进行的交互是同步个人信息：syncPersonInfo()
+    Remarks 3:
+    After call connectDevice, you must wait bleNotifyResponse() callback success,and then you can call confirmDevicePwd()
+    The first interation is code validation：confirmDevicePwd()
+    The second interation is personal information synchronization：syncPersonInfo()
 
-    备注4:
-    设备不支持异步操作,当多个耗时操作同时进行时,可能会导致数据异常;因此在与设备进行交互时,尽可能避免多个操作同时进行
+    Remarks 4:
+    The device does not support asynchronous operations. data may be abnormal when multiple time-consuming operations are performed simultaneously.Therefore, when interacting with the device, please avoid multiple operations at the same time.
 
-### 4. 蓝牙数据交互说明
+### 4. Bluetooth Data Interaction Instrctions  
 
-    SDK在蓝牙数据的下发的设计是只需要调用方法,传入设置参数以及监听接口,当数据有返回时,接口会触发回调,以confirmDevicePwd为例
-    
-    //传入参数
+    The design of SDK issue under bluetooth data only need call method, input setting data and monitor interface, When data returns, the interface triggers a callback, take confirmDevicePwd() for example
+    //input data
     String  pwdStr=“0000”;
     boolean is24Hourmodel = false;   
-    //调用方法,匿名内部类用于回调监听
+    //call method, anonymous inner classes are used for callback listening
     VPOperateManager.getMangerInstance(mContext).confirmDevicePwd(writeResponse, new IPwdDataListener() {
                 @Override
                 public void onPwdDataChange(PwdData pwdData) {
-                    //触发回调
+                    //triggers  callback
                     String message = "PwdData:\n" + pwdData.toString();
                     Logger.t(TAG).i(message);
                 }
             }, new IDeviceFuctionDataListener() {
                 @Override
                 public void onFunctionSupportDataChange(FunctionDeviceSupportData functionSupport) {
-                    //触发回调
+                    //triggers  callback
                     String message = "FunctionDeviceSupportData:\n" + functionSupport.toString();
                     Logger.t(TAG).i(message);
                 }
             }, new ISocialMsgDataListener() {
                 @Override
                 public void onSocialMsgSupportDataChange(FunctionSocailMsgData socailMsgData) {
-                    //触发回调
+                    //triggers  callback
                     String message = "FunctionSocailMsgData:\n" + socailMsgData.toString();
                     Logger.t(TAG).i(message);
                  }
             }, pwdStr, is24Hourmodel);
             
-### 5. 固件升级说明
+### 5. Firmware Upgrade Instructions  
 
-    固件升级的作用主要是针对设备的软件功能进行升级,此操作要求非常严谨，升级出错会给用户带来非常不好的体验。  
-    请谨慎执行此操作，升级操作要求在有网络的条件下进行，包括以下3个步骤,请务必仔细核对。  
-    具体的升级案例,可参考我司的运行demo工程VpBluetoothSDKDemo下的com.timaimee.vpbluetoothsdkdemo.oad.Activity.OadActivity
+	Firmware upgrade is mainly to upgrade the software function of the device. This operation requires strict requirements, and the wrong upgrade will bring a very bad experience to customer
+	Please perform this operation carefully, and the upgrade operation requires network conditions, including the following 3 steps. Please check carefully
+    For specific upgrade example, please check the "com.timaimee.vpbluetoothsdkdemo.oad.Activity.OadActivity" of demo project "VpBluetoothSDKDemo" 
+    1.The configuration of AndroidMainfest.xml	     
+		we have talked about its configuration stated above on configuration of Activity and Service, it mainly configure two files, service and activity,
+		developers can copy these two files under "VpBluetoothSDKDemo".
     
-    1.AndroidMainfest.xml的配置	      
-        这个配置已在前面的Activity&Service配置进行过说明，主要是配置两个文件,一个service和一个activity,
-        开发者也可以直接拷贝VpBluetoothSDKDemo下的这两个文件。
-    
-    2.升级前的判断
-        a.升级前先进行设备版本校验，升级文件校验
-        b.两者进行校验后，发送固件升级命令，设备会进入固件升级模式
-        c.然后app找到固件升级模式下的设备时
-        d.最后可以调用官方升级程序。
+    2.Judgement before upgrade
+        a.please verify device version and upgrade file before upgrade
+        b.After both are verified, send the firmware upgrade command, and the device will enter the firmware upgrade mode
+        c.Then the app scan the device under the firmware upgrade mode
+        d.in the end, to call the official upgrade program
 
-        备注：checkVersionAndFile()方法已封装以上的所有步骤，开发者调用此方法就行。
-            回调方法1：onCheckSucces()表示设备版本以及升级文件两者校验成功;
-            回调方法2：findOadDevice()表示找到固件升级模式下的设备,可以调用官方升级程序。
+        Remarks：checkVersionAndFile() method has encapsulated all of the above steps, and the developer can calls this method directly.
+            callback method1：onCheckSucces() means that both the device version and the upgrade file have been verified successfully)
+            callback method2：findOadDevice() means that the device in firmware upgrade mode has been found and can call the official upgrade program
          
-        其他情况:设备版本以及升级文件已经通过,且文件没有问题，但未发现固件升级模式下的设备，
-        处理方式:调用findOadModelDevice()方法，然后在其回调方法findOadDevice()中调用官方升级程序，
-        当然这种情况极少，不建议开发单独调用findOadModelDevice();
+		Other conditions, The device version and upgrade file have been passed, and the file is correct, but the device in the firmware upgrade mode is not found
+		Processing method, call findOadModelDevice() method, then call its official upgrade program on its callback method
+		Of course, this rarely happens and we do not recommend developers call findOadModelDevice() individually
     
-    3.调用官方升级程序
-        OadActivity下的startOad()，一般在接口OnFindOadDeviceListener的findOadDevice方法回调后被调用。
+    3.Calling official upgrade program
+		startOad() under OadActivity, usually called after the findOadDevice method callback of interface OnFindOadDeviceListener
 
-## 鸣谢
+## Thanks  
 
 * [Android-DFU-Library](https://github.com/NordicSemiconductor/Android-DFU-Library)
 * [BluetoothKit](https://github.com/dingjikerbo/BluetoothKit)  
 * [Gson](https://github.com/google/gson)  
 
 
-
-## 许可协议
+## License
 [Apache Version 2.0](http://www.apache.org/licenses/LICENSE-2.0.html)
 
     Copyright (C) 2010 Michael Pardo
@@ -145,9 +141,6 @@ README: [English](https://github.com/HBandSDK/Android_Ble_SDK/blob/master/README
     WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
     See the License for the specific language governing permissions and
     limitations under the License.
-
-
-
 
 
 

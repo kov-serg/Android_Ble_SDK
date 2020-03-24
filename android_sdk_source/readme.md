@@ -1,5 +1,5 @@
 ﻿# SDK latest version
-## [Version: 2.1.26.15] (https://github.com/HBandSDK/Android_Ble_SDK/blob/master/android_sdk_source/jar_core)
+## [Version:2.1.26.15](https://github.com/HBandSDK/Android_Ble_SDK/blob/master/android_sdk_source/jar_core)
 
 # Directory description
 
